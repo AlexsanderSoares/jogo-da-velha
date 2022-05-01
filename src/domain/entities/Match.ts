@@ -7,9 +7,10 @@ type Play = {
 };
 
 type MatchProps = {
-    date: Date;
-    winner: string;
-    plays: Array<Play>;
+    dateMatch?: Date;
+    winner: number | null;
+    plays: Array<Play> | null;
+    roomId: string;
 };
 
 export class Match extends Entity<MatchProps>{
@@ -18,7 +19,7 @@ export class Match extends Entity<MatchProps>{
     }
 
     static create(props: MatchProps, id?: string){
-        const match = new Match(props, id);
+        const match = new Match({...props, dateMatch: props.dateMatch ?? new Date()}, id);
 
         return match;
     }
