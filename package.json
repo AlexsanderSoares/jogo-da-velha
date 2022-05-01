@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+      
+  },
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^17.0.30",
+    "tsc": "^2.0.4",
     "typescript": "^4.6.4"
   }
 }
