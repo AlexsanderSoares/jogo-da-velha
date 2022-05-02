@@ -6,7 +6,9 @@
   "scripts": {
     "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "^6.3.1"
+  },
   "devDependencies": {
     "@types/node": "^17.0.30",
     "ts-node-dev": "^1.1.8",
