@@ -19,7 +19,10 @@ export class Match extends Entity<MatchProps>{
     }
 
     static create(props: MatchProps, id?: string){
-        const match = new Match({...props, dateMatch: props.dateMatch ?? new Date()}, id);
+        const match = new Match({
+            ...props, 
+            dateMatch: props.dateMatch ?? new Date(),
+        }, id);
 
         return match;
     }
