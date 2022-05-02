@@ -1,7 +1,7 @@
 import { Match } from "../../../../domain/entities/Match";
 import { CreateMatchRepository } from "../../../repositories/CreateMatchRepository";
 
-export class CreateMatch{
+export class CreateMatchUseCase{
 
     constructor(
         private createMatchRepository: CreateMatchRepository,
