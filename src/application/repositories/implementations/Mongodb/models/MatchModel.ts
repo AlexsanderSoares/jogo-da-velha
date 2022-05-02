@@ -1,4 +1,4 @@
-import {mongoose} from "../index";
+import {mongoose} from "../connection";
 
 const PlaysSchema = new mongoose.Schema({
     playerNumber: Number,
