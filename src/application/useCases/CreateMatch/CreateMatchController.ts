@@ -5,7 +5,7 @@ export class CreateMatchController{
         private createMatchUseCase: CreateMatchUseCase
     ){}
 
-    async handle(roomId: string): Promise<string>{
+    async handle(): Promise<string>{
         try{
             
             const roomId = await this.createMatchUseCase.execute();

@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>WEBSOCKET CLIENT</title>
+    </head>
+    <body>
+       <button onclick="createRoom()">
+           Criar sala
+       </button>
+       <button onclick="joinRoom()">
+            Entrar na sala
+        </button>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        const socket = io();
+
+        socket.on("room_id", data => {
+            console.log(data);
+        });
+
+        socket.on("user_join_room_success", data => {
+            console.log(`O usuário ${data.user} entrou na sala`);
+        });
+
+        socket.on("user_join_room_error", data => {
+            console.log(data.error);
+        });
+
+        function createRoom(){
+            socket.emit("create_room");
+        }
+
+        function joinRoom(){
+            socket.emit("join_room", {
+                roomId: 'teste',
+                user: 'Alex'
+            });
+        }
+    </script>
+</html>

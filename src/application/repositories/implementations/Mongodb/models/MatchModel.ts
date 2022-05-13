@@ -9,7 +9,6 @@ const PlaysSchema = new mongoose.Schema({
 const MatchSchema = new mongoose.Schema({
     roomId: {
         type: String,
-        required: true
     },
     plays: {
         type: [PlaysSchema],
