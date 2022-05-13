@@ -11,11 +11,11 @@ io.on("connection", socket => {
 
     socket.on('create_room', async (data) => {
 
-        const lastId = await createMatchController.handle();
+        const lastId = await (await createMatchController.handle()).toString();
 
         socket.join(lastId);
 
-        socket.emit('room_id', {
+        socket.emit('create_room_id_success', {
             roomId: lastId,
         });
     });
@@ -31,7 +31,8 @@ io.on("connection", socket => {
         socket.join(data.roomId);
 
         io.to(data.roomId).emit("user_join_room_success", {
-            user: data.user
+            user: data.user,
+            roomId: data.roomId,
         });
     });
 

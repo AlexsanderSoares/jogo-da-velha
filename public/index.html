@@ -2,10 +2,11 @@
     <head>
         <title>WEBSOCKET CLIENT</title>
     </head>
-    <body>
+    <body id="body">
        <button onclick="createRoom()">
            Criar sala
        </button>
+       <input type="text" id="room"/>
        <button onclick="joinRoom()">
             Entrar na sala
         </button>
@@ -19,20 +20,28 @@
         });
 
         socket.on("user_join_room_success", data => {
-            console.log(`O usuário ${data.user} entrou na sala`);
+            console.log(`O usuário ${data.user} entrou na sala ${data.roomId}`);
+
+            const text = document.createTextNode(`O usuário ${data.user} entrou na sala ${data.roomId}`);
+
+            document.getElementById("body").appendChild(text);
         });
 
         socket.on("user_join_room_error", data => {
             console.log(data.error);
         });
 
+        socket.on("create_room_id_success", data => {
+            console.log(data.roomId);
+        });
+        
         function createRoom(){
             socket.emit("create_room");
         }
 
         function joinRoom(){
             socket.emit("join_room", {
-                roomId: 'teste',
+                roomId: document.getElementById("room").value,
                 user: 'Alex'
             });
         }

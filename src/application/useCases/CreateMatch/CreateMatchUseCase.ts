@@ -11,10 +11,10 @@ export class CreateMatchUseCase{
 
         const match = Match.create({winner: null, plays: null});
 
-        const createMatch = await this.createMatchRepository.save(match);
+        await this.createMatchRepository.save(match);
 
-        console.log(createMatch);
+        const lastMatchId = await this.createMatchRepository.findLastMatchId();
 
-        return "roomId";
+        return lastMatchId;
     }
 }
