@@ -5,16 +5,16 @@ export class CreateMatchController{
         private createMatchUseCase: CreateMatchUseCase
     ){}
 
-    async handle(roomId: string): Promise<boolean>{
+    async handle(roomId: string): Promise<string>{
         try{
             
-            await this.createMatchUseCase.execute(roomId);
+            const roomId = await this.createMatchUseCase.execute();
 
-            return true;
+            return roomId;
 
         }catch(err){
 
-            return false;
+            console.log("Unexpected Error");
 
         }
     }

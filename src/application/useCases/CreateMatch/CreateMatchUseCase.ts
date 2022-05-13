@@ -7,12 +7,14 @@ export class CreateMatchUseCase{
         private createMatchRepository: CreateMatchRepository,
     ){}
 
-    async execute(){
+    async execute(): Promise<string>{
 
         const roomId = await this.createMatchRepository.findLastId();
 
         const match = Match.create({roomId, winner: null, plays: null});
 
         await this.createMatchRepository.save(match);
+
+        return roomId;
     }
 }

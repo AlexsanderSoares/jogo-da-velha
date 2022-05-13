@@ -3,14 +3,20 @@
         <title>WEBSOCKET CLIENT</title>
     </head>
     <body>
-        <h1>WEBSOCKET CLIENT</h1>
+       <button onclick="createRoom()">
+           Criar sala
+       </button>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         const socket = io();
 
-        socket.on('join_room', data => {
-            console.log(data.room);
+        socket.on("room_id", data => {
+            console.log(data);
         });
+
+        function createRoom(){
+            socket.emit("create_room");
+        }
     </script>
 </html>
