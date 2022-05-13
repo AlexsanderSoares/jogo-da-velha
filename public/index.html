@@ -5,4 +5,12 @@
     <body>
         <h1>WEBSOCKET CLIENT</h1>
     </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        const socket = io();
+
+        socket.on('join_room', data => {
+            console.log(data.room);
+        });
+    </script>
 </html>
