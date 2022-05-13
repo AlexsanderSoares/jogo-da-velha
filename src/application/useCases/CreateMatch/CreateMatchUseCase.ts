@@ -1,5 +1,5 @@
-import { Match } from "../../../../domain/entities/Match";
-import { CreateMatchRepository } from "../../../repositories/CreateMatchRepository";
+import { Match } from "../../../domain/entities/Match";
+import { CreateMatchRepository } from "../../repositories/CreateMatchRepository";
 
 export class CreateMatchUseCase{
 
