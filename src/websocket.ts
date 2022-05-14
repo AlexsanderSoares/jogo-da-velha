@@ -12,7 +12,7 @@ io.on("connection", socket => {
 
     socket.on('create_room', async (data) => {
 
-        const roomId = await (await createMatchController.handle()).toString();
+        const roomId = await (await createMatchController.handle({name: data.user, socket_id: socket.id})).toString();
 
         socket.join(roomId);
 
@@ -29,7 +29,7 @@ io.on("connection", socket => {
         if(!data.user)
             emitSocketError(socket, "Username is required");
 
-        const match = await updateMatchController.handle(data.roomId, {numberPlayers: 2})
+        const match = await updateMatchController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
 
         if(match)
             socket.join(data.roomId);

@@ -5,16 +5,16 @@ export class CreateMatchController{
         private createMatchUseCase: CreateMatchUseCase
     ){}
 
-    async handle(): Promise<string>{
+    async handle(player1: {name: string, socket_id: string}): Promise<string>{
         try{
             
-            const roomId = await this.createMatchUseCase.execute();
+            const roomId = await this.createMatchUseCase.execute(player1);
 
             return roomId;
 
         }catch(err){
 
-            console.log("Unexpected Error");
+            console.log(err);
 
         }
     }

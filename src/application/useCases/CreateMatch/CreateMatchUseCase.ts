@@ -7,9 +7,9 @@ export class CreateMatchUseCase{
         private createMatchRepository: CreateMatchRepository,
     ){}
 
-    async execute(): Promise<string>{
+    async execute(player1): Promise<string>{
 
-        const match = Match.create({start: false, winner: null, plays: null, numberPlayers: 1});
+        const match = Match.create({start: false, winner: null, moves: null, player1});
 
         await this.createMatchRepository.save(match);
 

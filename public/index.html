@@ -32,7 +32,7 @@
         });
         
         function createRoom(){
-            socket.emit("create_room");
+            socket.emit("create_room", {user: "Alex"});
         }
 
         function joinRoom(){

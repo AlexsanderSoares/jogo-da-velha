@@ -1,18 +1,23 @@
 import { Match } from "../../../domain/entities/Match";
 import { UpdateMatchRepository } from "../../repositories/UpdateMatchRepository";
 
-type Play = {
+type Move = {
     playerNumber: number;
     line: number;
     column: number;
 };
 
+type Player = {
+    name: String;
+    socket_id: String;
+};
 export type IUpdateMatchProps = {
     dateMatch?: Date;
     winner?: number | null;
-    plays?: Array<Play> | null;
+    moves?: Array<Move> | null;
     start?: boolean;
-    numberPlayers?: number;
+    player1?: Player;
+    player2?: Player;
 };
 
 export class UpdateMatchUseCase{
@@ -24,7 +29,9 @@ export class UpdateMatchUseCase{
 
         const match = await this.updateMatchRepository.findMatch(id);
 
-        if(match.numberPlayers >= 2)
+        console.log(match);
+
+        if(match.player1 && match.player2)
             throw new Error('Esta partida está cheia');
 
         if(match.start)
@@ -33,7 +40,7 @@ export class UpdateMatchUseCase{
         if(match.winner)
             throw new Error('Esta partida já foi finalizada');
 
-        const newMatch = Match.create({start: props.start ?? match.start, winner: props.winner ?? match.winner, plays: props.plays ?? match.plays, numberPlayers: props.numberPlayers ?? match.numberPlayers,});
+        const newMatch = Match.create({start: props.start ?? match.start, winner: props.winner ?? match.winner, moves: props.moves ?? match.moves, player1: props.player1 ?? match.player1, player2: props.player2 ?? match.player2,});
     
         const matchUpdate = this.updateMatchRepository.update(id, newMatch);
 

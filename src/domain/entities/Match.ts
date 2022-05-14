@@ -1,17 +1,23 @@
 import { Entity } from "../../core/domain/Entity";
 
-type Play = {
+type Move = {
     playerNumber: number;
     line: number;
     column: number;
 };
 
+type Player = {
+    name: String;
+    socket_id: String;
+};
+
 type MatchProps = {
     dateMatch?: Date;
     winner: number | null;
-    plays: Array<Play> | null;
+    moves: Array<Move> | null;
     start: boolean;
-    numberPlayers: number;
+    player1: Player;
+    player2?: Player;
 };
 
 export class Match extends Entity<MatchProps>{

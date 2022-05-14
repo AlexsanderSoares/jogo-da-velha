@@ -6,6 +6,11 @@ const PlaysSchema = new mongoose.Schema({
     column: Number,
 });
 
+const PlayerSchema = new mongoose.Schema({
+    name: String,
+    socket_id: String,
+});
+
 const MatchSchema = new mongoose.Schema({
     start: {
         type: Boolean,
@@ -18,9 +23,17 @@ const MatchSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
-    numberPlayers: {
-        type: Number,
-        required: true
+    player_turn: {
+        type: String, 
+        required: false,
+    },
+    player1: {
+        type: PlayerSchema,
+        required: true,
+    },
+    player2: {
+        type: PlayerSchema,
+        required: false,
     },
     createdAt: {
         type: Date,

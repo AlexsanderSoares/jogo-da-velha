@@ -23,8 +23,8 @@ export class MongoMatchRepository implements CreateMatchRepository, UpdateMatchR
         await MatchModel.create({
             start: match.props.start,
             winner: match.props.winner,
-            plays: match.props.plays,
-            numberPlayers: match.props.numberPlayers,
+            plays: match.props.moves,
+            player1: match.props.player1,
         });
     }
 
