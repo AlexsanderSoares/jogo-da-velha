@@ -10,7 +10,8 @@ type MatchProps = {
     dateMatch?: Date;
     winner: number | null;
     plays: Array<Play> | null;
-    roomId?: string;
+    start: boolean;
+    numberPlayers: number;
 };
 
 export class Match extends Entity<MatchProps>{

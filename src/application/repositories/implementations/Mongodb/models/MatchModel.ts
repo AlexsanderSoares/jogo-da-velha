@@ -7,8 +7,8 @@ const PlaysSchema = new mongoose.Schema({
 });
 
 const MatchSchema = new mongoose.Schema({
-    roomId: {
-        type: String,
+    start: {
+        type: Boolean,
     },
     plays: {
         type: [PlaysSchema],
@@ -17,6 +17,10 @@ const MatchSchema = new mongoose.Schema({
     winner: {
         type: Number,
         required: false
+    },
+    numberPlayers: {
+        type: Number,
+        required: true
     },
     createdAt: {
         type: Date,

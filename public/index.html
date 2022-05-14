@@ -21,10 +21,6 @@
 
         socket.on("user_join_room_success", data => {
             console.log(`O usuário ${data.user} entrou na sala ${data.roomId}`);
-
-            const text = document.createTextNode(`O usuário ${data.user} entrou na sala ${data.roomId}`);
-
-            document.getElementById("body").appendChild(text);
         });
 
         socket.on("user_join_room_error", data => {
