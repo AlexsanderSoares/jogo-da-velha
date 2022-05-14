@@ -1,4 +1,5 @@
 import { createMatchController } from "./application/useCases/CreateMatch/";
+import { updateMatchController } from "./application/useCases/UpdateMatch";
 import { io } from "./http";
 
 io.on("connection", socket => {
@@ -11,16 +12,16 @@ io.on("connection", socket => {
 
     socket.on('create_room', async (data) => {
 
-        const lastId = await (await createMatchController.handle()).toString();
+        const roomId = await (await createMatchController.handle()).toString();
 
-        socket.join(lastId);
+        socket.join(roomId);
 
         socket.emit('create_room_id_success', {
-            roomId: lastId,
+            roomId: roomId,
         });
     });
 
-    socket.on('join_room', data => {
+    socket.on('join_room', async (data) => {
 
         if(!data.roomId)
             emitSocketError(socket, "Invalid Room ID");
@@ -28,11 +29,14 @@ io.on("connection", socket => {
         if(!data.user)
             emitSocketError(socket, "Username is required");
 
-        socket.join(data.roomId);
+        const match = await updateMatchController.handle(data.roomId, {numberPlayers: 2})
+
+        if(match)
+            socket.join(data.roomId);
 
         io.to(data.roomId).emit("user_join_room_success", {
             user: data.user,
-            roomId: data.roomId,
+            room: match,
         });
     });
 

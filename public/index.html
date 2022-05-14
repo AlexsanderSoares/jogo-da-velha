@@ -20,7 +20,7 @@
         });
 
         socket.on("user_join_room_success", data => {
-            console.log(`O usuário ${data.user} entrou na sala ${data.roomId}`);
+            console.log(data);
         });
 
         socket.on("user_join_room_error", data => {
