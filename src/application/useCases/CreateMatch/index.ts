@@ -1,10 +1,10 @@
-import { MongoMatchRepository } from "../../repositories/implementations/Mongodb/MongoMatchRepository";
+import { CreateMatchMongoRepository } from "../../repositories/implementations/Mongodb/CreateMatchMongoRepository";
 import { CreateMatchController } from "./CreateMatchController";
 import { CreateMatchUseCase } from "./CreateMatchUseCase";
 
-const mongoMatchrepository = new MongoMatchRepository();
+const createMatchMongoRepository = new CreateMatchMongoRepository();
 
-const createMatchUseCase = new  CreateMatchUseCase(mongoMatchrepository);
+const createMatchUseCase = new  CreateMatchUseCase(createMatchMongoRepository);
 
 const createMatchController = new CreateMatchController(createMatchUseCase);
 

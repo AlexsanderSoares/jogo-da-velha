@@ -1,10 +1,10 @@
-import { MongoMatchRepository } from "../../repositories/implementations/Mongodb/MongoMatchRepository";
+import { UpdateMatchMongoRepository } from "../../repositories/implementations/Mongodb/UpdateMatchMongoRepository";
 import { UpdateMatchController } from "./UpdateMatchController";
 import { UpdateMatchUseCase } from "./UpdateMatchUseCase";
 
-const mongoMatchRepository = new MongoMatchRepository();
+const updateMatchMongoRepository = new UpdateMatchMongoRepository();
 
-const updateMatchUseCase = new UpdateMatchUseCase(mongoMatchRepository);
+const updateMatchUseCase = new UpdateMatchUseCase(updateMatchMongoRepository);
 
 const updateMatchController = new UpdateMatchController(updateMatchUseCase);
 

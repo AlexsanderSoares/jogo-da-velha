@@ -1,14 +1,14 @@
 import { Entity } from "../../core/domain/Entity";
 
-type Move = {
-    playerNumber: number;
-    line: number;
-    column: number;
-};
-
 type Player = {
     name: String;
     socket_id: String;
+};
+
+type Move = {
+    player: Player;
+    line: number;
+    column: number;
 };
 
 type MatchProps = {
