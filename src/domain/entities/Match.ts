@@ -5,7 +5,7 @@ export type Player = {
     disconnected?: Boolean;
 };
 
-type Move = {
+export type Move = {
     player: Player;
     line: number;
     column: number;

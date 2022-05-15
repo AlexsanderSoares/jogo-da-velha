@@ -1,17 +1,5 @@
-import { Match } from "../../../domain/entities/Match";
+import { Match, Move, Player } from "../../../domain/entities/Match";
 import { UpdateMatchRepository } from "../../repositories/UpdateMatchRepository";
-
-type Player = {
-    name: String;
-    socket_id: String;
-    disconnected?: Boolean,
-};
-
-type Move = {
-    player: Player;
-    line: number;
-    column: number;
-};
 
 export type IUpdateMatchProps = {
     dateMatch?: Date;
