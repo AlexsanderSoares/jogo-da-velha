@@ -12,7 +12,7 @@ export class UpdateMatchMongoRepository implements UpdateMatchRepository{
     }
 
     async update(id: string, match: Match): Promise<Match> {
-        const matchUpdate = await MatchModel.findByIdAndUpdate({_id: id}, {...match.props});
+        const matchUpdate = await MatchModel.findByIdAndUpdate({_id: id}, {...match});
 
         return matchUpdate;
     }

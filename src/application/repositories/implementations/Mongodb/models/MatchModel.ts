@@ -9,6 +9,10 @@ const PlaysSchema = new mongoose.Schema({
 const PlayerSchema = new mongoose.Schema({
     name: String,
     socket_id: String,
+    disconnected: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const MatchSchema = new mongoose.Schema({
@@ -20,7 +24,7 @@ const MatchSchema = new mongoose.Schema({
         required: false
     },
     winner: {
-        type: Number,
+        type: PlayerSchema,
         required: false
     },
     player_turn: {

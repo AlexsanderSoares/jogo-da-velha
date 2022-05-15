@@ -1,19 +1,21 @@
 import { Match } from "../../../domain/entities/Match";
 import { UpdateMatchRepository } from "../../repositories/UpdateMatchRepository";
 
+type Player = {
+    name: String;
+    socket_id: String;
+    disconnected?: Boolean,
+};
+
 type Move = {
-    playerNumber: number;
+    player: Player;
     line: number;
     column: number;
 };
 
-type Player = {
-    name: String;
-    socket_id: String;
-};
 export type IUpdateMatchProps = {
     dateMatch?: Date;
-    winner?: number | null;
+    winner?: Player | null;
     moves?: Array<Move> | null;
     start?: boolean;
     player1?: Player;
@@ -28,8 +30,6 @@ export class UpdateMatchUseCase{
     async execute(id: string, props: IUpdateMatchProps): Promise<Match>{
 
         const match = await this.updateMatchRepository.findMatch(id);
-
-        console.log(match);
 
         if(match.player1 && match.player2)
             throw new Error('Esta partida está cheia');

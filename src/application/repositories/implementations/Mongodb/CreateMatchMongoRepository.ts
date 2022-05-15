@@ -20,15 +20,15 @@ export class CreateMatchMongoRepository implements CreateMatchRepository, Update
 
     async save(match: Match): Promise<void> {
         await MatchModel.create({
-            start: match.props.start,
-            winner: match.props.winner,
-            plays: match.props.moves,
-            player1: match.props.player1,
+            start: match.start,
+            winner: match.winner,
+            plays: match.moves,
+            player1: match.player1,
         });
     }
 
     async update(id: string, match: Match): Promise<Match> {
-        const matchUpdate = await MatchModel.findByIdAndUpdate({_id: id}, {...match.props});
+        const matchUpdate = await MatchModel.findByIdAndUpdate({_id: id}, {...match});
 
         return matchUpdate;
     }

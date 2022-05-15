@@ -1,4 +1,5 @@
 import { createMatchController } from "./application/useCases/CreateMatch/";
+import { exitMatchController } from "./application/useCases/ExitMatch";
 import { updateMatchController } from "./application/useCases/UpdateMatch";
 import { io } from "./http";
 
@@ -19,6 +20,7 @@ io.on("connection", socket => {
         socket.emit('create_room_id_success', {
             roomId: roomId,
         });
+
     });
 
     socket.on('join_room', async (data) => {
@@ -38,6 +40,14 @@ io.on("connection", socket => {
             user: data.user,
             room: match,
         });
+    });
+
+    socket.on('disconnecting', async () => {
+        
+        const exited = await exitMatchController.handle(socket.id);
+
+        if(exited)
+            socket.emit('player_disconnected');
     });
 
 });

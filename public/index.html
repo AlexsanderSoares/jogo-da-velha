@@ -30,6 +30,10 @@
         socket.on("create_room_id_success", data => {
             console.log(data.roomId);
         });
+
+        socket.on("player_disconnected", data => {
+            console.log("Um player saiu da partida");
+        });
         
         function createRoom(){
             socket.emit("create_room", {user: "Alex"});
@@ -38,7 +42,7 @@
         function joinRoom(){
             socket.emit("join_room", {
                 roomId: document.getElementById("room").value,
-                user: 'Alex'
+                user: 'João'
             });
         }
     </script>
