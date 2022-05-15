@@ -6,9 +6,9 @@ export class ExitMatchMongoRepository implements ExitMatchRepository{
     async findMatchByPlayerId(socketPlayerId: string): Promise<Match> {
         const match = await MatchModel.findOne({
             $and: [
-                {$or: [{player1: {socket_id: socketPlayerId}}, {player2: {socket_id: socketPlayerId}}]},
-                {start: true}
-            ]
+                {start: true},
+                {$or: [{'player1.socket_id': socketPlayerId}, {'player2.socket_id': socketPlayerId}]}
+            ],
         });
 
         console.log(match);
