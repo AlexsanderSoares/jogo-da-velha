@@ -11,13 +11,11 @@ export class ExitMatchMongoRepository implements ExitMatchRepository{
             ],
         });
 
-        console.log(match);
-
         return match;
     }
 
     async exitPlayerAndFinishMatch(matchId: string, player: Player): Promise<Match> {
-        const match = await MatchModel.findByIdAndUpdate(matchId, {start: false, winner: player,});
+        const match = await MatchModel.findByIdAndUpdate(matchId, {start: false, winner: player,}, {returnDocument: 'after'});
 
         return match;
     }

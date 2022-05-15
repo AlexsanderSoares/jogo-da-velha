@@ -44,10 +44,22 @@ io.on("connection", socket => {
 
     socket.on('disconnecting', async () => {
         
-        const exited = await exitMatchController.handle(socket.id);
+        const matchExited = await exitMatchController.handle(socket.id);
 
-        if(exited)
-            socket.emit('player_disconnected');
+        if(matchExited){
+            socket.leave(matchExited._id.toString());
+            io.to(matchExited._id.toString()).emit('player_disconnected', matchExited);
+        }
+    });
+
+    socket.on('quit_room', async () => {
+        
+        const matchExited = await exitMatchController.handle(socket.id);
+
+        if(matchExited){
+            socket.leave(matchExited._id.toString());
+            io.to(matchExited._id.toString()).emit('player_quit', matchExited);
+        }
     });
 
 });

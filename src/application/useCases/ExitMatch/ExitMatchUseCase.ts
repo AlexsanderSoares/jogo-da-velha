@@ -14,9 +14,9 @@ export class ExitMatchUseCase{
         {
             const player = match.player1.socket_id !== socketPlayerId ? match.player1 : match.player2
 
-            const exited = await this.exitMatchRepository.exitPlayerAndFinishMatch(match._id, player );
+            const matchExited = await this.exitMatchRepository.exitPlayerAndFinishMatch(match._id, player);
 
-            return exited;
+            return matchExited;
         }
     }
 }

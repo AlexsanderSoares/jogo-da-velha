@@ -8,9 +8,9 @@ export class ExitMatchController{
     async handle(socketPlayerId){
         try{
 
-            const exited = await this.exitMatchUseCase.execute(socketPlayerId);
+            const matchExited = await this.exitMatchUseCase.execute(socketPlayerId);
 
-            return exited;
+            return matchExited;
             
         }catch(err){
 

@@ -10,6 +10,9 @@
        <button onclick="joinRoom()">
             Entrar na sala
         </button>
+        <button onclick="quitRoom()">
+            Entrar na sala
+        </button>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
@@ -32,7 +35,13 @@
         });
 
         socket.on("player_disconnected", data => {
-            console.log("Um player saiu da partida");
+            console.log("O adversário desconectou");
+            console.log(data);
+        });
+
+        socket.on("player_quit", data => {
+            console.log("O adversário saiu da sala");
+            console.log(data);
         });
         
         function createRoom(){
@@ -44,6 +53,10 @@
                 roomId: document.getElementById("room").value,
                 user: 'João'
             });
+        }
+
+        function quitRoom(){
+            socket.emit("quit_room");
         }
     </script>
 </html>
