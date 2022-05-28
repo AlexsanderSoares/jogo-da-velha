@@ -6,12 +6,13 @@
        <button onclick="createRoom()">
            Criar sala
        </button>
-       <input type="text" id="room"/>
+       <input type="text" id="room" placeholder="ID Room"/>
+       <input type="text" id="name" placeholder="Nome"/>
        <button onclick="joinRoom()">
             Entrar na sala
         </button>
         <button onclick="quitRoom()">
-            Entrar na sala
+            Sair da sala
         </button>
     </body>
     <script src="/socket.io/socket.io.js"></script>
@@ -31,7 +32,7 @@
         });
 
         socket.on("create_room_id_success", data => {
-            console.log(data.roomId);
+            console.log(data);
         });
 
         socket.on("player_disconnected", data => {
@@ -51,7 +52,7 @@
         function joinRoom(){
             socket.emit("join_room", {
                 roomId: document.getElementById("room").value,
-                user: 'João'
+                user: document.getElementById("name").value
             });
         }
 

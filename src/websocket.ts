@@ -5,11 +5,15 @@ import { io } from "./http";
 
 io.on("connection", socket => {
 
+
+
     const emitSocketError = (socket, error) => {
         socket.emit("user_join_room_error", {
             error
         });
     }
+
+
 
     socket.on('create_room', async (data) => {
 
@@ -22,6 +26,8 @@ io.on("connection", socket => {
         });
 
     });
+
+
 
     socket.on('join_room', async (data) => {
 
@@ -42,6 +48,8 @@ io.on("connection", socket => {
         });
     });
 
+
+
     socket.on('disconnecting', async () => {
         
         const matchExited = await exitMatchController.handle(socket.id);
@@ -52,6 +60,8 @@ io.on("connection", socket => {
         }
     });
 
+
+
     socket.on('quit_room', async () => {
         
         const matchExited = await exitMatchController.handle(socket.id);
@@ -61,5 +71,7 @@ io.on("connection", socket => {
             io.to(matchExited._id.toString()).emit('player_quit', matchExited);
         }
     });
+
+    
 
 });
