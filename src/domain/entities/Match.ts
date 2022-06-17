@@ -32,15 +32,7 @@ export class Match{
     public player2?: Player
 
     private constructor(
-        props: { 
-        _id?: string,
-        dateMatch?: Date,
-        winner: Player | null,
-        moves: Array<Move> | null,
-        start: boolean,
-        player1: Player,
-        player2?: Player,
-    }){
+        props: MatchProps){
         
         Object.assign(this, props);
     }
