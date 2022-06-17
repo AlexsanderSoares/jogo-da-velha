@@ -9,14 +9,14 @@ export class ExitMatchUseCase{
     async execute(socketPlayerId){
 
         const match = await this.exitMatchRepository.findMatchByPlayerId(socketPlayerId);
+         
+        const playerLeaving = match.player1.socket_id === socketPlayerId ? {player: match.player1, isPlayerOne: true} : {player: match.player2, isPlayerOne: false}    
         
-        if(match)
-        {
-            const player = match.player1.socket_id !== socketPlayerId ? match.player1 : match.player2
+        if(match.start)
+            return await this.exitMatchRepository.exitPlayerAndFinishMatch(match._id, playerLeaving.player);
 
-            const matchExited = await this.exitMatchRepository.exitPlayerAndFinishMatch(match._id, player);
+        else
+            return await this.exitMatchRepository.exitPlayer(match._id, playerLeaving.isPlayerOne);
 
-            return matchExited;
-        }
     }
 }
