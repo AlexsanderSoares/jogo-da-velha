@@ -14,6 +14,9 @@
         <button onclick="quitRoom()">
             Sair da sala
         </button>
+        <button onclick="kickoutRoom()">
+            Expulsar da sala
+        </button>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
@@ -44,6 +47,11 @@
             console.log("O adversário saiu da sala");
             console.log(data);
         });
+
+        socket.on("kickout_room", data => {
+            console.log("O adversário foi expulso da sala");
+            console.log(data);
+        });
         
         function createRoom(){
             socket.emit("create_room", {user: "Alex"});
@@ -58,6 +66,10 @@
 
         function quitRoom(){
             socket.emit("quit_room");
+        }
+
+        function kickoutRoom(){
+            socket.emit("kickout_room");
         }
     </script>
 </html>

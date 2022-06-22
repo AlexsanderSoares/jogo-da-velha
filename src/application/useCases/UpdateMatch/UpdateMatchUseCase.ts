@@ -19,6 +19,9 @@ export class UpdateMatchUseCase{
 
         const match = await this.updateMatchRepository.findMatch(id);
 
+        if(!match)
+            throw new Error("Sala não encontrada");
+
         if(match.player1 && match.player2)
             throw new Error('Esta partida está cheia');
 

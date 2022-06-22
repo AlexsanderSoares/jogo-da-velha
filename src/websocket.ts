@@ -1,5 +1,6 @@
 import { createMatchController } from "./application/useCases/CreateMatch/";
 import { exitMatchController } from "./application/useCases/ExitMatch";
+import { kickoutMatchController } from "./application/useCases/KickoutMatch";
 import { updateMatchController } from "./application/useCases/UpdateMatch";
 import { io } from "./http";
 
@@ -12,8 +13,6 @@ io.on("connection", socket => {
             error
         });
     }
-
-
 
     socket.on('create_room', async (data) => {
 
@@ -39,13 +38,14 @@ io.on("connection", socket => {
 
         const match = await updateMatchController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
 
-        if(match)
+        if(match){
             socket.join(data.roomId);
 
-        io.to(data.roomId).emit("user_join_room_success", {
-            user: data.user,
-            room: match,
-        });
+            io.to(data.roomId).emit("user_join_room_success", {
+                user: data.user,
+                room: match,
+            });
+        }
     });
 
 
@@ -70,6 +70,26 @@ io.on("connection", socket => {
             socket.leave(matchExited._id.toString());
             io.to(matchExited._id.toString()).emit('player_quit', matchExited);
         }
+    });
+
+    socket.on('kickout_room', async () => {
+        
+        const kickoutMatch = await kickoutMatchController.handle(socket.id);
+
+        if(kickoutMatch){
+
+            const playerSockets = await io.in(kickoutMatch.player2.socket_id.toString()).fetchSockets();
+
+            const player2Socket = playerSockets.find(socket => socket.id === kickoutMatch.player2.socket_id); 
+
+            player2Socket.leave(kickoutMatch._id.toString());
+
+            kickoutMatch.player2 = null;
+
+            io.to(kickoutMatch._id.toString()).emit('kickout_room', kickoutMatch);
+
+        }
+
     });
 
     

@@ -24,9 +24,11 @@ export class ExitMatchMongoRepository implements ExitMatchRepository{
 
         match.player2 = null;
         
-        const newMatch = await MatchModel.findByIdAndUpdate(matchId, match, {returnDocument: 'after'});
-
-        return newMatch;
+        if(!match.player1 && !match.player2){
+            await MatchModel.deleteOne({_id: matchId}, {returnDocument: 'after'});
+            return match;
+        }else
+            return await MatchModel.findByIdAndUpdate(matchId, match, {returnDocument: 'after'});
 
     }
 }
