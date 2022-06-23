@@ -32,20 +32,21 @@ io.on("connection", socket => {
 
         if(!data.roomId)
             emitSocketError(socket, "Invalid Room ID");
-        
-        if(!data.user)
+        else if(!data.user)
             emitSocketError(socket, "Username is required");
+        else{
+            const match = await updateMatchController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
 
-        const match = await updateMatchController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
+            if(match){
+                socket.join(data.roomId);
 
-        if(match){
-            socket.join(data.roomId);
-
-            io.to(data.roomId).emit("user_join_room_success", {
-                user: data.user,
-                room: match,
-            });
+                io.to(data.roomId).emit("user_join_room_success", {
+                    user: data.user,
+                    room: match,
+                });
+            }
         }
+        
     });
 
 
