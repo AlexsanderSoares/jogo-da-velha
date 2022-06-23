@@ -9,7 +9,7 @@ export class CreateMatchUseCase{
 
     async execute(player1): Promise<string>{
 
-        const match = Match.create({start: false, winner: null, moves: null, player1});
+        const match = Match.create({start: false, winner: null, moves: null, player1, player_turn: player1});
 
         await this.createMatchRepository.save(match);
 

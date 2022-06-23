@@ -1,10 +1,5 @@
 import {mongoose} from "../connection";
 
-const PlaysSchema = new mongoose.Schema({
-    playerNumber: Number,
-    line: Number,
-    column: Number,
-});
 
 const PlayerSchema = new mongoose.Schema({
     name: String,
@@ -15,20 +10,30 @@ const PlayerSchema = new mongoose.Schema({
     },
 });
 
+const MoveSchema = new mongoose.Schema({
+    playerNumber: PlayerSchema,
+    line: Number,
+    column: Number,
+});
+
 const MatchSchema = new mongoose.Schema({
     start: {
         type: Boolean,
     },
-    plays: {
-        type: [PlaysSchema],
+    moves: {
+        type: [MoveSchema],
         required: false
+    },
+    board: {
+        type: [String],
+        required: false,
     },
     winner: {
         type: PlayerSchema,
         required: false
     },
     player_turn: {
-        type: String, 
+        type: PlayerSchema, 
         required: false,
     },
     player1: {
