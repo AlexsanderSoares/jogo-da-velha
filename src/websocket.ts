@@ -1,6 +1,7 @@
 import { createMatchController } from "./application/useCases/CreateMatch/";
 import { exitMatchController } from "./application/useCases/ExitMatch";
 import { kickoutMatchController } from "./application/useCases/KickoutMatch";
+import { playerMoveController } from "./application/useCases/PlayerMove";
 import { updateMatchController } from "./application/useCases/UpdateMatch";
 import { io } from "./http";
 
@@ -90,6 +91,14 @@ io.on("connection", socket => {
             io.to(kickoutMatch._id.toString()).emit('kickout_room', kickoutMatch);
 
         }
+
+    });
+
+    socket.on('player_move', async (data) => {
+
+        const match = playerMoveController.handler(socket.id, {column: data.column, line: data.line});
+
+        io.to((await match)._id.toString()).emit("player_move", match);
 
     });
 

@@ -9,6 +9,7 @@ export type Move = {
     player: Player;
     line: number;
     column: number;
+    symbol: string;
 };
 
 type MatchProps = {
@@ -16,7 +17,7 @@ type MatchProps = {
     dateMatch?: Date;
     winner: Player | null;
     moves: Array<Move> | null;
-    board: Array<string>;
+    board: Array<Array<string>>;
     player_turn: Player;
     start: boolean;
     player1: Player;
@@ -29,7 +30,7 @@ export class Match{
     public dateMatch?: Date
     public winner: Player | null
     public moves: Array<Move> | null
-    public board: Array<string>
+    public board: Array<Array<string>>
     public player_turn: Player
     public start: boolean
     public player1: Player

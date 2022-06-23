@@ -25,7 +25,7 @@ export class CreateMatchMongoRepository implements CreateMatchRepository, Update
             plays: match.moves,
             player1: match.player1,
             player_turn: match.player_turn,
-            board: [],
+            board: match.board,
         });
     }
 

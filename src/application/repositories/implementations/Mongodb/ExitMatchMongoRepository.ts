@@ -19,8 +19,10 @@ export class ExitMatchMongoRepository implements ExitMatchRepository{
         
         const match = await MatchModel.findById(matchId);
 
-        if(isPlayer1)
+        if(isPlayer1){
             match.player1 = match.player2;
+            match.player_turn = match.player2;
+        }
 
         match.player2 = null;
         

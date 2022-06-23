@@ -14,6 +14,7 @@ const MoveSchema = new mongoose.Schema({
     playerNumber: PlayerSchema,
     line: Number,
     column: Number,
+    symbol: String,
 });
 
 const MatchSchema = new mongoose.Schema({
@@ -25,8 +26,8 @@ const MatchSchema = new mongoose.Schema({
         required: false
     },
     board: {
-        type: [String],
-        required: false,
+        type: [[String]],
+        required: false
     },
     winner: {
         type: PlayerSchema,
