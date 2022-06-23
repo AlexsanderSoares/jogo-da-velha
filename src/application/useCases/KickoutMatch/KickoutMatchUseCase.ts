@@ -15,6 +15,11 @@ export class KickoutMatchUseCase{
                 console.log("Você não é o administrador");
                 return;
             }
+
+            if(match.start){
+                console.log("A partida ja iniciou");
+                return;
+            }
                 
             
             return await this.kickoutMatchRepository.kickoutMatchPlayer(match);
