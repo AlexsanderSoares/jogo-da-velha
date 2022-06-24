@@ -8,6 +8,7 @@ export class PlayerMoveUseCase{
     ){}
     
     async execute(socket_id: string, move: {column: number, line: number}){
+        
         const match = await this.playerMoveRepository.findMatch(socket_id);
 
         if(!match){
@@ -17,6 +18,11 @@ export class PlayerMoveUseCase{
 
         if(match.player_turn.socket_id !== socket_id){
             console.log("Não é a vez no jogador");
+            return;
+        }
+
+        if((move.column < 0 || move.column > 2) || (move.line < 0 || move.line > 2)){
+            console.log("Posição invalida");
             return;
         }
         

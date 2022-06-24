@@ -96,9 +96,10 @@ io.on("connection", socket => {
 
     socket.on('player_move', async (data) => {
 
-        const match = playerMoveController.handler(socket.id, {column: data.column, line: data.line});
+        const match = await playerMoveController.handler(socket.id, {column: data.column, line: data.line});
 
-        io.to((await match)._id.toString()).emit("player_move", match);
+        if(match)
+            io.to(match._id.toString()).emit("player_move", match);
 
     });
 
