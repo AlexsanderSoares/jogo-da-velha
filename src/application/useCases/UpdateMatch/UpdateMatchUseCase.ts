@@ -39,8 +39,8 @@ export class UpdateMatchUseCase{
                                         moves: props.moves ?? match.moves, 
                                         player1: props.player1 ?? match.player1, 
                                         player2: props.player2 ?? match.player2,
-                                        player_turn: match.player_turn,
-                                        board: match.board
+                                        player_turn: props.player_turn ?? match.player_turn,
+                                        board: props.board ?? match.board
                                     });
     
         const matchUpdate = this.updateMatchRepository.update(id, newMatch);
