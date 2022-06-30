@@ -2,9 +2,12 @@ import { Match, Move, Player } from "../../../domain/entities/Match";
 import { UpdateMatchRepository } from "../../repositories/UpdateMatchRepository";
 
 export type IUpdateMatchProps = {
+    _id?: string;
     dateMatch?: Date;
     winner?: Player | null;
     moves?: Array<Move> | null;
+    board?: Array<Array<string>>;
+    player_turn?: Player;
     start?: boolean;
     player1?: Player;
     player2?: Player;
@@ -31,7 +34,14 @@ export class UpdateMatchUseCase{
         if(match.winner)
             throw new Error('Esta partida já foi finalizada');
 
-        const newMatch = Match.create({start: props.start ?? match.start, winner: props.winner ?? match.winner, moves: props.moves ?? match.moves, player1: props.player1 ?? match.player1, player2: props.player2 ?? match.player2,});
+        const newMatch = Match.create({start: props.start ?? match.start, 
+                                        winner: props.winner ?? match.winner, 
+                                        moves: props.moves ?? match.moves, 
+                                        player1: props.player1 ?? match.player1, 
+                                        player2: props.player2 ?? match.player2,
+                                        player_turn: match.player_turn,
+                                        board: match.board
+                                    });
     
         const matchUpdate = this.updateMatchRepository.update(id, newMatch);
 
