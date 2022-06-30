@@ -2,6 +2,7 @@ import { createMatchController } from "./application/useCases/CreateMatch/";
 import { exitMatchController } from "./application/useCases/ExitMatch";
 import { kickoutMatchController } from "./application/useCases/KickoutMatch";
 import { playerMoveController } from "./application/useCases/PlayerMove";
+import { startMatchController } from "./application/useCases/StartMatch";
 import { updateMatchController } from "./application/useCases/UpdateMatch";
 import { io } from "./http";
 
@@ -95,7 +96,15 @@ io.on("connection", socket => {
     });
 
     socket.on('start_match', async () => {
-        
+        const startMatch = await startMatchController.handle(socket.id); 
+
+        if(!startMatch){
+            console.log("[SOCKET]", "Partida não encontarda");
+            return;
+        }
+
+        io.to(startMatch._id.toString()).emit('start_match', startMatch);
+
     });
 
     socket.on('player_move', async (data) => {
