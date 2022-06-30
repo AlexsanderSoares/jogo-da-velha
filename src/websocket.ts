@@ -18,12 +18,12 @@ io.on("connection", socket => {
 
     socket.on('create_room', async (data) => {
 
-        const roomId = await (await createMatchController.handle({name: data.user, socket_id: socket.id})).toString();
+        const match = await createMatchController.handle({name: data.user, socket_id: socket.id});
 
-        socket.join(roomId);
+        socket.join(match._id);
 
         socket.emit('create_room_id_success', {
-            roomId: roomId,
+            match
         });
 
     });

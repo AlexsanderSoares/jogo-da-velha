@@ -1,3 +1,4 @@
+import { Match } from "../../../domain/entities/Match";
 import { CreateMatchUseCase } from "./CreateMatchUseCase";
 
 export class CreateMatchController{
@@ -5,12 +6,10 @@ export class CreateMatchController{
         private createMatchUseCase: CreateMatchUseCase
     ){}
 
-    async handle(player1: {name: string, socket_id: string}): Promise<string>{
+    async handle(player1: {name: string, socket_id: string}): Promise<Match>{
         try{
             
-            const roomId = await this.createMatchUseCase.execute(player1);
-
-            return roomId;
+            return await this.createMatchUseCase.execute(player1);
 
         }catch(err){
 
