@@ -3,7 +3,7 @@ import { exitMatchController } from "./application/useCases/ExitMatch";
 import { kickoutMatchController } from "./application/useCases/KickoutMatch";
 import { playerMoveController } from "./application/useCases/PlayerMove";
 import { startMatchController } from "./application/useCases/StartMatch";
-import { updateMatchController } from "./application/useCases/UpdateMatch";
+import { jonRoomController } from "./application/useCases/JoinRoom";
 import { io } from "./http";
 
 io.on("connection", socket => {
@@ -37,7 +37,7 @@ io.on("connection", socket => {
         else if(!data.user)
             emitSocketError(socket, "Username is required");
         else{
-            const match = await updateMatchController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
+            const match = await jonRoomController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
 
             if(match){
                 socket.join(data.roomId);
