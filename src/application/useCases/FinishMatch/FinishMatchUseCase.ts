@@ -39,7 +39,9 @@ export class FinishMatchUseCase{
         this.verifyPlayerWin([this.match.board[2][0], this.match.board[1][1], this.match.board[0][2]]);
 
         if(this.playerWinner)
-            this.finishMatchRepository.finishMatch(this.match._id.toString(), this.playerWinner);
+            this.match = await this.finishMatchRepository.finishMatch(this.match._id.toString(), this.playerWinner);
+
+        return this.match;
             
     }
 }
