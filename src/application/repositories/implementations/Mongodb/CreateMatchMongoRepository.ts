@@ -1,7 +1,5 @@
 import { Match } from "../../../../domain/entities/Match";
-import { IUpdateMatchProps } from "../../../useCases/UpdateMatch/UpdateMatchUseCase";
 import { CreateMatchRepository } from "../../CreateMatchRepository";
-import { UpdateMatchRepository } from "../../UpdateMatchRepository";
 import { MatchModel } from "./models/MatchModel";
 
 export class CreateMatchMongoRepository implements CreateMatchRepository{

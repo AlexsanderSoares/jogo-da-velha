@@ -1,7 +1,7 @@
 import { Match, Move, Player } from "../../../domain/entities/Match";
-import { UpdateMatchRepository } from "../../repositories/UpdateMatchRepository";
+import { JoinRoomRepository } from "../../repositories/JoinRoomRepository";
 
-export type IUpdateMatchProps = {
+export type IJoinRoomProps = {
     _id?: string;
     dateMatch?: Date;
     winner?: Player | null;
@@ -13,12 +13,12 @@ export type IUpdateMatchProps = {
     player2?: Player;
 };
 
-export class UpdateMatchUseCase{
+export class JoinRoomUseCase{
     constructor(
-        private updateMatchRepository: UpdateMatchRepository
+        private updateMatchRepository: JoinRoomRepository
     ){}
 
-    async execute(id: string, props: IUpdateMatchProps): Promise<Match>{
+    async execute(id: string, props: IJoinRoomProps): Promise<Match>{
 
         const match = await this.updateMatchRepository.findMatch(id);
 
