@@ -41,7 +41,8 @@ export class PlayerMoveUseCase{
 
         if(player.symbol === 'X')
             match.player_turn = match.player2;
-        else
+            
+        else if(player.symbol === 'O')
             match.player_turn = match.player1;
 
         return await this.playerMoveRepository.updateMatchWithPlayerMove(match);
