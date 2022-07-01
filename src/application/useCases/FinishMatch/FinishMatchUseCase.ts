@@ -6,19 +6,24 @@ export class FinishMatchUseCase{
     private playerWinner: Player;
     private match: Match;
 
+
     constructor(
         private finishMatchRepository: FinishMatchRepository
     ){}
 
+
     private verifyPlayerWin(positions: Array<string>): void {
-        
-        if(new Set([positions]).size === 1 && positions[0] === 'X')
+
+        const isEqualPositions = new Set([positions]).size === 1;
+
+        if(isEqualPositions && positions[0] === 'X')
             this.playerWinner = this.match.player1;
         
-        if(new Set([positions]).size === 1 && positions[0] === 'O')
+        if(isEqualPositions && positions[0] === 'O')
             this.playerWinner = this.match.player2;
-
+            
     }
+
 
     async execute(matchId: string){
 
@@ -44,4 +49,6 @@ export class FinishMatchUseCase{
         return this.match;
             
     }
+
+
 }
