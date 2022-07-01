@@ -5,13 +5,14 @@ import { playerMoveController } from "./application/useCases/PlayerMove";
 import { startMatchController } from "./application/useCases/StartMatch";
 import { jonRoomController } from "./application/useCases/JoinRoom";
 import { io } from "./http";
+import { finishMatchController } from "./application/useCases/FinishMatch";
 
 io.on("connection", socket => {
 
 
 
     const emitSocketError = (socket, error) => {
-        socket.emit("user_join_room_error", {
+        socket.emit("error", {
             error
         });
     }
@@ -29,14 +30,10 @@ io.on("connection", socket => {
     });
 
 
-
     socket.on('join_room', async (data) => {
 
-        if(!data.roomId)
-            emitSocketError(socket, "Invalid Room ID");
-        else if(!data.user)
-            emitSocketError(socket, "Username is required");
-        else{
+        try{
+
             const match = await jonRoomController.handle(data.roomId, {player2: {name: data.user, socket_id: socket.id}})
 
             if(match){
@@ -47,7 +44,13 @@ io.on("connection", socket => {
                     room: match,
                 });
             }
+
+        }catch(err){
+
+            emitSocketError(socket, err.error);
+
         }
+
         
     });
 
@@ -55,67 +58,107 @@ io.on("connection", socket => {
 
     socket.on('disconnecting', async () => {
         
-        const matchExited = await exitMatchController.handle(socket.id);
+        try{
 
-        if(matchExited){
-            socket.leave(matchExited._id.toString());
-            io.to(matchExited._id.toString()).emit('player_disconnected', matchExited);
+            const matchExited = await exitMatchController.handle(socket.id);
+
+            if(matchExited){
+                socket.leave(matchExited._id.toString());
+                io.to(matchExited._id.toString()).emit('player_disconnected', matchExited);
+            }
+
+        }catch(err){
+
+            emitSocketError(socket, err.error);
+
         }
+        
     });
 
 
 
     socket.on('quit_room', async () => {
         
-        const matchExited = await exitMatchController.handle(socket.id);
+        try{
 
-        if(matchExited){
-            socket.leave(matchExited._id.toString());
-            io.to(matchExited._id.toString()).emit('player_quit', matchExited);
+            const matchExited = await exitMatchController.handle(socket.id);
+
+            if(matchExited){
+                socket.leave(matchExited._id.toString());
+                io.to(matchExited._id.toString()).emit('player_quit', matchExited);
+            }
+
+        }catch(err){
+
+            emitSocketError(socket, err.error);
+
         }
+
     });
 
     socket.on('kickout_room', async () => {
         
-        const kickoutMatch = await kickoutMatchController.handle(socket.id);
+        try{
 
-        if(kickoutMatch){
+            const kickoutMatch = await kickoutMatchController.handle(socket.id);
 
-            const playerSockets = await io.in(kickoutMatch.player2.socket_id.toString()).fetchSockets();
+            if(kickoutMatch){
 
-            const player2Socket = playerSockets.find(socket => socket.id === kickoutMatch.player2.socket_id); 
+                const playerSockets = await io.in(kickoutMatch.player2.socket_id.toString()).fetchSockets();
 
-            player2Socket.leave(kickoutMatch._id.toString());
+                const player2Socket = playerSockets.find(socket => socket.id === kickoutMatch.player2.socket_id); 
 
-            kickoutMatch.player2 = null;
+                player2Socket.leave(kickoutMatch._id.toString());
 
-            io.to(kickoutMatch._id.toString()).emit('kickout_room', kickoutMatch);
+                kickoutMatch.player2 = null;
+
+                io.to(kickoutMatch._id.toString()).emit('kickout_room', kickoutMatch);
+
+            }
+
+        }catch(err){
+
+            emitSocketError(socket, err.error);
 
         }
 
     });
 
     socket.on('start_match', async () => {
-        const startMatch = await startMatchController.handle(socket.id); 
 
-        if(!startMatch){
-            console.log("[SOCKET]", "Partida não encontarda");
-            return;
+        try{
+
+            const startMatch = await startMatchController.handle(socket.id); 
+
+            io.to(startMatch._id.toString()).emit('start_match', startMatch);
+
+        }catch(err){
+
+            emitSocketError(socket, err.error);
+
         }
-
-        io.to(startMatch._id.toString()).emit('start_match', startMatch);
 
     });
 
     socket.on('player_move', async (data) => {
 
-        const match = await playerMoveController.handler(socket.id, {column: data.column, line: data.line});
+        try{
 
-        if(match)
-            io.to(match._id.toString()).emit("player_move", match);
+            const matchPlayerMove = await playerMoveController.handler(socket.id, {column: data.column, line: data.line});
+
+            const matchFinish = await finishMatchController.handle(matchPlayerMove._id.toString());
+
+            if(!matchFinish.start)
+                io.to(matchFinish._id.toString()).emit("player_move", matchFinish);
+            else
+                io.to(matchPlayerMove._id.toString()).emit("player_move", matchPlayerMove);
+        
+        }catch(err){
+
+            emitSocketError(socket, err.error);
+
+        }
 
     });
-
-    
 
 });
