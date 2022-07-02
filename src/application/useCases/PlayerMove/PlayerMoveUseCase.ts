@@ -43,5 +43,7 @@ export class PlayerMoveUseCase{
         if(!matchWithMove)
             throw new Error("Não foi possivel registrar o movimento");
 
+        return matchWithMove;
+
     }
 }

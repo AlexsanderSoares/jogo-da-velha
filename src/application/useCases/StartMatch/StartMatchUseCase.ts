@@ -20,5 +20,7 @@ export class StartMatchUseCase{
         if(!startMatch)
             throw new Error("Não foi possível iniciar a partida");
 
+        return startMatch;
+
     }
 }
