@@ -8,24 +8,22 @@ export class KickoutMatchUseCase{
     ){}
 
     async execute(socketId: string){
-        try{
-            const match = await this.kickoutMatchRepository.findMatchByPlayerId(socketId);
 
-            if(!match){
-                console.log("Você não é o administrador");
-                return;
-            }
+        const match = await this.kickoutMatchRepository.findMatchByPlayerId(socketId);
 
-            if(match.start){
-                console.log("A partida ja iniciou");
-                return;
-            }
-                
+        if(!match)
+            throw new Error("Você não é o administrador da sala");
             
-            return await this.kickoutMatchRepository.kickoutMatchPlayer(match);
-        }catch(err){
-            console.log(err);
-        }
+        if(match.start)
+            throw new Error("A partida ja começou");
+        
+        const newMatch = await this.kickoutMatchRepository.kickoutMatchPlayer(match);
+
+        if(!newMatch)
+            throw new Error("Não foi possível remover o jogador");
+            
+        return newMatch;
+
     }
 
 }

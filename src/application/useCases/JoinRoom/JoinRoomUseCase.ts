@@ -43,7 +43,7 @@ export class JoinRoomUseCase{
                                         board: props.board ?? match.board
                                     });
     
-        const matchUpdate = this.updateMatchRepository.update(id, newMatch);
+        const matchUpdate = this.updateMatchRepository.join(id, newMatch);
 
         return matchUpdate;
 

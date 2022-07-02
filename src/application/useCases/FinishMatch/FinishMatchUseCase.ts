@@ -29,10 +29,8 @@ export class FinishMatchUseCase{
 
         this.match = await this.finishMatchRepository.findMatchById(matchId);
 
-        if(!this.match){
-            console.log("Partida não encontrada");
-            return;
-        }
+        if(!this.match)
+            throw new Error("Partida não encontrada");
 
         this.verifyPlayerWin([this.match.board[0][0], this.match.board[0][1], this.match.board[0][2]]);
         this.verifyPlayerWin([this.match.board[1][0], this.match.board[1][1], this.match.board[1][2]]);
@@ -45,6 +43,9 @@ export class FinishMatchUseCase{
 
         if(this.playerWinner)
             this.match = await this.finishMatchRepository.finishMatch(this.match._id.toString(), this.playerWinner);
+
+        if(!this.match)
+            throw new Error("Erro na finalização da partida");
 
         return this.match;
             

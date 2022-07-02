@@ -11,25 +11,18 @@ export class PlayerMoveUseCase{
         
         const match = await this.playerMoveRepository.findMatch(socket_id);
 
-        if(!match){
-            console.log("Partida não encontrada");
-            return;
-        }
+        if(!match)
+            throw new Error("Partida não encontrada");
 
-        if(match.player_turn.socket_id !== socket_id){
-            console.log("Não é a vez no jogador");
-            return;
-        }
+        if(match.player_turn.socket_id !== socket_id)
+            throw new Error("Não é a sua vez de jogar");
 
-        if((move.column < 0 || move.column > 2) || (move.line < 0 || move.line > 2)){
-            console.log("Posição invalida");
-            return;
-        }
-        
-        if(match.board[move.column][move.line] !== null){
-            console.log("Essa posição não está dipsonivel");
-            return;
-        }
+        if((move.column < 0 || move.column > 2) || (move.line < 0 || move.line > 2))
+            throw new Error("Essa posição é invalida");
+            
+        if(match.board[move.column][move.line] !== null)
+            throw new Error("Essa posição ja foi escolhida.");
+
 
         const player = match.player1.socket_id === socket_id ? {player: match.player1, symbol: 'X'} : {player: match.player2, symbol: 'O'};
         
@@ -45,7 +38,10 @@ export class PlayerMoveUseCase{
         else if(player.symbol === 'O')
             match.player_turn = match.player1;
 
-        return await this.playerMoveRepository.updateMatchWithPlayerMove(match);
+        const matchWithMove = await this.playerMoveRepository.updateMatchWithPlayerMove(match);
+
+        if(!matchWithMove)
+            throw new Error("Não foi possivel registrar o movimento");
 
     }
 }

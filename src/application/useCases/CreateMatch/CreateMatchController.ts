@@ -7,14 +7,8 @@ export class CreateMatchController{
     ){}
 
     async handle(player1: {name: string, socket_id: string}): Promise<Match>{
-        try{
-            
-            return await this.createMatchUseCase.execute(player1);
 
-        }catch(err){
+        return await this.createMatchUseCase.execute(player1);
 
-            console.log(err);
-
-        }
     }
 }
